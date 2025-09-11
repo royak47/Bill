@@ -20,13 +20,15 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             font-size: 12px;
             line-height: 1.2;
+            font-weight: bold; /* Making font bolder */
+            color: #000000; /* Darker font color */
         }
         .logo-qr-top {
             text-align: center;
             margin-bottom: 10px;
         }
         .logo-qr-top img.logo {
-            width: 40px;
+            width: 80px; /* Doubled from 40px */
             height: auto;
             margin-bottom: 5px;
         }
@@ -235,7 +237,7 @@
         <hr class="separator">
 
         <div class="order-details">
-            <p>OrderDate <input type="text" id="order-date" value="11-09-2025 11:59 AM" onchange="updateDisplay('order-date')"><span class="display-text" id="order-date-display"></span></p>
+            <p>OrderDate <input type="text" id="order-date" value="11-09-2025 01:08 PM" onchange="updateDisplay('order-date')"><span class="display-text" id="order-date-display"></span></p>
             <p>OrderID# <input type="text" id="order-id" value="17566266490471778A" onchange="updateDisplay('order-id')"><span class="display-text" id="order-id-display"></span></p>
             <p>ShipmentID# <input type="text" id="shipment-id" value="17566266490471778A-01" onchange="updateDisplay('shipment-id')"><span class="display-text" id="shipment-id-display"></span></p>
             <p>Trip : W5 - *** QC ***</p>
@@ -251,7 +253,7 @@
 
         <div class="bill-info">
             <p>Bill No.: <input type="text" id="bill-no" value="670999339" onchange="updateDisplay('bill-no')"><span class="display-text" id="bill-no-display"></span></p>
-            <p>Date:11-09-2025  Time:11:59 AM</p>
+            <p>Date:11-09-2025  Time:01:08 PM</p>
             <p>C#60551161              Txn#39</p>
             <p>S#6701                   R#220</p>
         </div>
