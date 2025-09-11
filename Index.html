@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JioMart Invoice Generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 10px;
+            background: #f5f5f5;
+        }
+        .container {
+            width: 80mm;
+            margin: 0 auto;
+            background: white;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            font-size: 12px;
+            line-height: 1.2;
+        }
+        .logo-qr-top {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .logo-qr-top img.logo {
+            width: 40px;
+            height: auto;
+            margin-bottom: 5px;
+        }
+        .logo-qr-top canvas.qr {
+            width: 60px !important;
+            height: 60px !important;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .header p {
+            margin: 2px 0;
+            font-size: 11px;
+        }
+        .separator {
+            border: none;
+            border-top: 1px dashed #000;
+            margin: 5px 0;
+        }
+        .customer-details {
+            margin: 5px 0;
+        }
+        .customer-details p {
+            margin: 1px 0;
+            font-size: 11px;
+        }
+        .order-details {
+            margin: 5px 0;
+        }
+        .order-details p {
+            margin: 1px 0;
+            font-size: 11px;
+        }
+        .saved {
+            text-align: center;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .invoice-title {
+            text-align: center;
+            font-size: 12px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .bill-info {
+            font-size: 11px;
+            margin: 5px 0;
+        }
+        .items-section {
+            margin: 5px 0;
+        }
+        .add-item {
+            font-size: 10px;
+            margin-bottom: 5px;
+        }
+        .item-row {
+            margin: 5px 0;
+        }
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+            margin: 5px 0;
+        }
+        .items-table td {
+            padding: 1px 2px;
+            border-bottom: 1px solid #000;
+            text-align: left;
+        }
+        .items-table .right {
+            text-align: right;
+        }
+        .totals {
+            font-size: 11px;
+            margin: 5px 0;
+        }
+        .totals p {
+            margin: 1px 0;
+        }
+        .gst-details {
+            font-size: 10px;
+            margin: 5px 0;
+        }
+        .gst-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10px;
+        }
+        .gst-table td {
+            padding: 1px;
+            text-align: right;
+        }
+        .gst-table .left {
+            text-align: left;
+        }
+        .ref-details {
+            font-size: 11px;
+            margin: 5px 0;
+        }
+        .footer {
+            text-align: center;
+            font-size: 10px;
+            margin-top: 10px;
+        }
+        .qr-bottom {
+            text-align: center;
+            margin: 5px 0;
+        }
+        .qr-bottom canvas {
+            width: 60px !important;
+            height: 60px !important;
+        }
+        .print-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input {
+            width: 80px;
+            font-size: 11px;
+            border: 1px solid #ccc;
+            font-family: inherit;
+            margin: 2px 0;
+        }
+        .editable-value {
+            display: inline-block;
+            min-width: 80px;
+        }
+        .display-text {
+            display: none;
+        }
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+            .container {
+                width: 80mm;
+                box-shadow: none;
+                margin: 0;
+                padding: 5px;
+            }
+            .print-btn, input, .add-item {
+                display: none !important;
+            }
+            .editable-value {
+                display: none !important;
+            }
+            .display-text {
+                display: inline !important;
+                border: none !important;
+                background: transparent !important;
+            }
+            .item-row input {
+                display: none !important;
+            }
+            .item-row .display-only {
+                display: inline !important;
+            }
+            @page {
+                size: 80mm auto;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="invoice">
+        <div class="logo-qr-top">
+            <img src="jio_mart_logo.png" alt="JioMart Logo" class="logo">
+            <canvas id="qr-top" class="qr"></canvas>
+        </div>
+
+        <div class="header">
+            <p>Customer Care email - CS@jiomart.com</p>
+            <p>RELIANCE SMART</p>
+            <p>LG-001, DLF Mega Mall</p>
+            <p>Customer Care toll free number- 1800 898 1222</p>
+            <p>CIN No : U01100MH1999PLC120563</p>
+            <p>GSTIN- 06AABCR1718E1ZT</p>
+            <p>FSSAI Lic No -10817005000406</p>
+            <p>Place of Supply & State code: 06 HR</p>
+        </div>
+        <hr class="separator">
+
+        <div class="customer-details">
+            <p>Customer GSTIN: URD</p>
+            <p>Customer Details</p>
+            <p><input type="text" class="editable-value" id="customer-name" value="Neeraj None" onchange="updateDisplay('customer-name')"><span class="display-text" id="customer-name-display"></span></p>
+            <p>Phone: <input type="text" class="editable-value" id="phone" value="XXXXXXXXXX" onchange="updateDisplay('phone')"><span class="display-text" id="phone-display"></span></p>
+            <p>Flat No: <input type="text" class="editable-value" id="flat-no" value="Mg road metro s" onchange="updateDisplay('flat-no')"><span class="display-text" id="flat-no-display"></span></p>
+            <p>Street: <input type="text" class="editable-value" id="street" value="Maruti Housing Colony" onchange="updateDisplay('street')"><span class="display-text" id="street-display"></span></p>
+            <p>City: <input type="text" class="editable-value" id="city" value="Gurugram" onchange="updateDisplay('city')"><span class="display-text" id="city-display"></span></p>
+            <p>State: <input type="text" class="editable-value" id="state" value="Haryana" onchange="updateDisplay('state')"><span class="display-text" id="state-display"></span></p>
+            <p>PinCode: <input type="text" class="editable-value" id="pincode" value="122009" onchange="updateDisplay('pincode')"><span class="display-text" id="pincode-display"></span></p>
+        </div>
+        <hr class="separator">
+        <p>Del. Partner: *GR*</p>
+        <p>Customer GSTIN: URP</p>
+        <hr class="separator">
+
+        <div class="order-details">
+            <p>OrderDate <input type="text" id="order-date" value="11-09-2025 11:59 AM" onchange="updateDisplay('order-date')"><span class="display-text" id="order-date-display"></span></p>
+            <p>OrderID# <input type="text" id="order-id" value="17566266490471778A" onchange="updateDisplay('order-id')"><span class="display-text" id="order-id-display"></span></p>
+            <p>ShipmentID# <input type="text" id="shipment-id" value="17566266490471778A-01" onchange="updateDisplay('shipment-id')"><span class="display-text" id="shipment-id-display"></span></p>
+            <p>Trip : W5 - *** QC ***</p>
+            <p>1 km 190 mtr</p>
+        </div>
+        <hr class="separator">
+
+        <p class="saved">*You have saved Rs <input type="number" id="saved-amount" value="100.00" step="0.01" onchange="updateDisplay('saved-amount')"><span class="display-text" id="saved-amount-display"></span>* </p>
+        <div class="invoice-title">
+            <p>TAX INVOICE</p>
+            <p>Original for Recipient</p>
+        </div>
+
+        <div class="bill-info">
+            <p>Bill No.: <input type="text" id="bill-no" value="670999339" onchange="updateDisplay('bill-no')"><span class="display-text" id="bill-no-display"></span></p>
+            <p>Date:11-09-2025  Time:11:59 AM</p>
+            <p>C#60551161              Txn#39</p>
+            <p>S#6701                   R#220</p>
+        </div>
+        <hr class="separator">
+
+        <div class="items-section">
+            <div class="add-item">
+                <button onclick="addItem()">Add Grocery Item</button>
+            </div>
+            <table class="items-table" id="items-table">
+                <tr>
+                    <td>HSN</td>
+                    <td>Net Price</td>
+                    <td>Qty</td>
+                    <td class="right">Value</td>
+                </tr>
+                <tr><td colspan="4">1)CGST@2.50% SGST@2.50% CESS@0.00%</td></tr>
+                <tr class="item-row">
+                    <td><input type="text" id="item-hsn-1" value="17011490" onchange="updateItemDisplay(1)"><span class="display-text" id="item-hsn-display-1"></span></td>
+                    <td><input type="number" id="item-price-1" value="149.00" step="0.01" onchange="calculateTotals()"></td>
+                    <td><input type="number" id="item-qty-1" value="1" step="1" onchange="calculateTotals()"></td>
+                    <td class="right"><span id="item-value-1">149.00</span></td>
+                </tr>
+                <tr class="item-row"><td colspan="4"><input type="text" id="item-name-1" value="Dhampur Sugar 5kg" style="width: 100%;" onchange="updateItemDisplay(1)"><span class="display-text" id="item-name-display-1"></span></td></tr>
+                <tr class="item-row"><td colspan="4">Item: 1      QTY : <span id="item-qty-display-1">1</span>    <span id="item-value-display-1">149.00</span></td></tr>
+            </table>
+        </div>
+
+        <div class="totals">
+            <p>Total Amount            <span id="total-amount">149.00</span></p>
+            <p>Coupon Disc             <span id="coupon-disc">100.00</span></p>
+            <p>Amount Paid Online      <span id="amount-paid">49.00</span></p>
+            <p>{AMT INCL. OF APPLICABLE TAXES}</p>
+        </div>
+        <hr class="separator">
+
+        <div class="gst-details">
+            <p>-GST bill details -Amount (INR)</p>
+            <p>GST Taxable   CGST    SGST</p>
+            <p>IND Amount</p>
+            <p>    CESS      TotalAmt</p>
+            <hr style="margin: 2px 0;">
+            <table class="gst-table">
+                <tr>
+                    <td class="left">  1</td>
+                    <td id="gst-taxable">141.90</td>
+                    <td id="gst-cgst">3.55</td>
+                    <td id="gst-sgst">3.55</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td id="gst-cess">0.00</td>
+                    <td id="gst-total">149.00</td>
+                    <td></td>
+                </tr>
+            </table>
+            <hr style="margin: 2px 0;">
+            <table class="gst-table">
+                <tr>
+                    <td class="left"> T:</td>
+                    <td id="gst-taxable-total">141.90</td>
+                    <td id="gst-cgst-total">3.55</td>
+                    <td id="gst-sgst-total">3.55</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td id="gst-cess-total">0.00</td>
+                    <td id="gst-total-total">149.00</td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="ref-details">
+            <p>RefNo#<span id="ref-no">6701220003931082025</span></p>
+            <p>Tax Invoice#<span id="tax-invoice">670999339</span></p>
+            <p>ROne Card Details</p>
+            <p>ROne Card No. :730XXXX372</p>
+            <p>ROne Bal(Amount):1.61</p>
+        </div>
+        <hr class="separator">
+
+        <div class="footer">
+            <p>* Thank You for Shopping with us *Website: www.relianceretail.com</p>
+            <p>Customer Care email - CS@jiomart.com</p>
+            <p>Please refer to our  Website link</p>
+            <p>https://relianceretail.com/privacy-policy.html</p>
+            <p>for Privacy Policy</p>
+            <p>“Dynamic</p>
+            <p>Quick Response (QR) code is made</p>
+            <p>available to the Recipient through a digital display”</p>
+            <p>Customer Care toll free number- 1800 898 1222</p>
+        </div>
+
+        <div class="qr-bottom">
+            <p>Shipment ID code</p>
+            <canvas id="qr-bottom" class="qr"></canvas>
+        </div>
+    </div>
+
+    <button class="print-btn" onclick="printInvoice()">Print Bill Directly</button>
+
+    <script>
+        let itemCount = 1;
+
+        function updateDisplay(id) {
+            const value = document.getElementById(id).value;
+            document.getElementById(id + '-display').textContent = value;
+            if (id === 'order-id') {
+                document.getElementById('shipment-id').value = value + '-01';
+                updateDisplay('shipment-id');
+            }
+        }
+
+        function updateItemDisplay(itemNum) {
+            const hsn = document.getElementById(`item-hsn-${itemNum}`).value;
+            const name = document.getElementById(`item-name-${itemNum}`).value;
+            document.getElementById(`item-hsn-display-${itemNum}`).textContent = hsn;
+            document.getElementById(`item-name-display-${itemNum}`).textContent = name;
+            calculateTotals(); // Recalculate to update values
+        }
+
+        function addItem() {
+            itemCount++;
+            const table = document.getElementById('items-table');
+            const row1 = table.insertRow(-1);
+            row1.className = 'item-row';
+            row1.innerHTML = `
+                <td><input type="text" id="item-hsn-${itemCount}" onchange="updateItemDisplay(${itemCount})"><span class="display-text" id="item-hsn-display-${itemCount}"></span></td>
+                <td><input type="number" id="item-price-${itemCount}" step="0.01" onchange="calculateTotals()"></td>
+                <td><input type="number" id="item-qty-${itemCount}" step="1" onchange="calculateTotals()"></td>
+                <td class="right"><span id="item-value-${itemCount}"></span></td>
+            `;
+            const row2 = table.insertRow(-1);
+            row2.className = 'item-row';
+            row2.innerHTML = `<td colspan="4"><input type="text" id="item-name-${itemCount}" style="width: 100%;" onchange="updateItemDisplay(${itemCount})"><span class="display-text" id="item-name-display-${itemCount}"></span></td>`;
+            const row3 = table.insertRow(-1);
+            row3.className = 'item-row';
+            row3.innerHTML = `<td colspan="4">Item: ${itemCount}      QTY : <span id="item-qty-display-${itemCount}"></span>    <span id="item-value-display-${itemCount}"></span></td>`;
+            calculateTotals();
+        }
+
+        function calculateTotals() {
+            let total = 0;
+            for (let i = 1; i <= itemCount; i++) {
+                const price = parseFloat(document.getElementById(`item-price-${i}`)?.value) || 0;
+                const qty = parseInt(document.getElementById(`item-qty-${i}`)?.value) || 0;
+                const value = price * qty;
+                document.getElementById(`item-value-${i}`).textContent = value.toFixed(2);
+                document.getElementById(`item-qty-display-${i}`).textContent = qty;
+                document.getElementById(`item-value-display-${i}`).textContent = value.toFixed(2);
+                total += value;
+            }
+            const savedAmount = parseFloat(document.getElementById('saved-amount').value) || 0;
+            const amountPaid = total - savedAmount > 0 ? total - savedAmount : 0;
+            document.getElementById('total-amount').textContent = total.toFixed(2);
+            document.getElementById('coupon-disc').textContent = savedAmount.toFixed(2);
+            document.getElementById('amount-paid').textContent = amountPaid.toFixed(2);
+
+            // GST Calculation (2.5% CGST, 2.5% SGST)
+            const taxable = total * 100 / (1 + 0.025 + 0.025);
+            const cgst = taxable * 0.025;
+            const sgst = taxable * 0.025;
+            const cess = 0.00;
+            const grandTotal = taxable + cgst + sgst + cess;
+
+            document.getElementById('gst-taxable').textContent = taxable.toFixed(2);
+            document.getElementById('gst-cgst').textContent = cgst.toFixed(2);
+            document.getElementById('gst-sgst').textContent = sgst.toFixed(2);
+            document.getElementById('gst-cess').textContent = cess.toFixed(2);
+            document.getElementById('gst-total').textContent = grandTotal.toFixed(2);
+
+            document.getElementById('gst-taxable-total').textContent = taxable.toFixed(2);
+            document.getElementById('gst-cgst-total').textContent = cgst.toFixed(2);
+            document.getElementById('gst-sgst-total').textContent = sgst.toFixed(2);
+            document.getElementById('gst-cess-total').textContent = cess.toFixed(2);
+            document.getElementById('gst-total-total').textContent = grandTotal.toFixed(2);
+
+            // Random Bill Number
+            document.getElementById('bill-no').value = `670${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}`;
+            updateDisplay('bill-no');
+            document.getElementById('tax-invoice').textContent = document.getElementById('bill-no').value;
+
+            // Generate QR Codes with random Order ID if needed
+            let orderId = document.getElementById('order-id').value;
+            if (!orderId) {
+                orderId = `175${Math.floor(Math.random() * 1000000000000).toString().padStart(12, '0')}A`;
+                document.getElementById('order-id').value = orderId;
+            }
+            updateDisplay('order-id');
+            QRCode.toCanvas(document.getElementById('qr-top'), orderId, { width: 60 });
+            document.getElementById('shipment-id').value = orderId + '-01';
+            updateDisplay('shipment-id');
+            QRCode.toCanvas(document.getElementById('qr-bottom'), document.getElementById('shipment-id').value, { width: 60 });
+        }
+
+        document.getElementById('saved-amount').addEventListener('input', calculateTotals);
+
+        function printInvoice() {
+            calculateTotals();
+            if (window.print) {
+                window.print();
+            } else {
+                alert('Print function is not supported in this browser. Please use Ctrl+P or your browser\'s print option.');
+            }
+        }
+
+        window.onload = () => {
+            calculateTotals();
+            updateDisplay('customer-name');
+            updateDisplay('phone');
+            updateDisplay('flat-no');
+            updateDisplay('street');
+            updateDisplay('city');
+            updateDisplay('state');
+            updateDisplay('pincode');
+            updateDisplay('order-date');
+            updateDisplay('order-id');
+            updateDisplay('shipment-id');
+            updateDisplay('saved-amount');
+            updateDisplay('bill-no');
+            updateItemDisplay(1);
+        };
+    </script>
+</body>
+</html>
