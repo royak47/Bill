@@ -14,43 +14,52 @@
       font-size: 16px;
     }
     .container {
-  width: 58mm; /* 80mm se change karke 58mm thermal size */
+  width: 80mm;
   margin: 0 auto;
   background: white;
-  padding: 5px; /* compact */
-  font-size: 13px; /* text thoda chhota */
-  line-height: 1.1; /* compact lines */
+  padding: 8px; /* thoda kam */
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  font-size: 15px; /* thoda chhota */
+  line-height: 1.2; /* kam spacing */
   font-weight: bold;
   color: #000000;
 }
 
-.logo-qr-top .logo-main {
-  width: 95%;    
-  max-width: 200px;
-  margin: 0 auto 3px auto; /* bada logo ke niche thoda space */
-  display: block;
+.header p,
+.customer-details p,
+.order-details p,
+.bill-info p,
+.footer p,
+.ref-details p,
+.invoice-title p,
+.totals p,
+.gst-details p {
+  margin: 0;       /* jyada space hat gaya */
+  padding: 0;      /* koi extra gap nahi */
+  font-size: 13px; /* compact text */
 }
 
-.logo-qr-top .logo-sub {
-  width: 65%;    
-  max-width: 140px;
-  margin: 0 auto 2px auto;  /* 🔥 ab gap sirf 2px */
-  display: block;
-}
-
-#qr-top {
-  margin: 0 auto 2px auto; /* QR aur header ke bich ka gap bhi kam */
+    /* 🔥 Top Logos Fix */
+    .logo-qr-top {
+      text-align: center;
+      margin-bottom: 2px;
+    }
+    .logo-qr-top .logo-main {
+      width: 90%;    /* bada logo, dono side thoda space bache */
+      max-width: 220px;
+      margin: 0 auto 8px auto;
+      display: block;
+    }
+    .logo-qr-top .logo-sub {
+  width: 70%;    
+  max-width: 160px;
+  margin: 0 auto 0 auto;  /* 🔥 niche ka gap hata diya */
   display: block;
 }
 
 .header {
-  text-align: center;
-  margin-top: 0;
+  margin-top: 0;   /* upar ka gap hat gaya */
   padding-top: 0;
-}
-.header p {
-  margin: 1px 0; /* 🔥 line spacing kam */
-  font-size: 12px; 
 }
     .logo-qr-top canvas.qr {
       width: 120px !important;
