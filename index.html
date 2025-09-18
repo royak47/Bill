@@ -20,7 +20,7 @@
       background: white;
       padding: 8px;
       box-shadow: 0 0 5px rgba(0,0,0,0.1);
-      font-size: 18px; /* Increased base font size */
+      font-size: 18px;
       line-height: 1.2;
       font-weight: bold;
       color: #000000;
@@ -37,7 +37,7 @@
     .gst-details p {
       margin: 0;
       padding: 0;
-      font-size: 16px; /* Increased from 13px */
+      font-size: 16px;
     }
 
     .logo-qr-top {
@@ -65,19 +65,19 @@
       padding: 0;
       text-align: center;
     }
-    .header p { margin: 1px 0; font-size: 17px; } /* Increased from 14px */
-    .separator { border: none; border-top: 1px dashed #000; margin: 5px 0; }
-    .customer-details p, .order-details p, .bill-info p { margin: 1px 0; font-size: 17px; } /* Increased from 14px */
+    .header p { margin: 1px 0; font-size: 17px; }
+    .separator { border: none; border-top: 1px dashed #ccc; margin: 5px 0; } /* Changed to lighter gray (#ccc) and reduced capacity */
+    .customer-details p, .order-details p, .bill-info p { margin: 1px 0; font-size: 17px; }
 
-    .items-table { width: 100%; border-collapse: collapse; font-size: 17px; margin: 5px 0; } /* Increased from 14px */
+    .items-table { width: 100%; border-collapse: collapse; font-size: 17px; margin: 5px 0; }
     .items-table td { padding: 2px 4px; border-bottom: 1px solid #000; text-align: left; }
     .items-table .right { text-align: right; }
 
-    .gst-table { width: 100%; border-collapse: collapse; font-size: 17px; } /* Increased from 14px */
+    .gst-table { width: 100%; border-collapse: collapse; font-size: 17px; }
     .gst-table td { padding: 2px; text-align: right; }
     .gst-table .left { text-align: left; }
 
-    .footer { text-align: center; font-size: 17px; margin-top: 10px; } /* Increased from 14px */
+    .footer { text-align: center; font-size: 17px; margin-top: 10px; }
     .qr-bottom { text-align: center; margin: 5px 0; }
     .qr-bottom canvas { width: 120px !important; height: 120px !important; }
 
@@ -89,14 +89,14 @@
       color: white;
       border: none;
       cursor: pointer;
-      font-size: 18px; /* Increased for better visibility */
+      font-size: 18px;
       border-radius: 5px;
     }
     .print-btn:hover {
       background: #0056b3;
     }
 
-    input { width: 160px; font-size: 17px; border: 1px solid #ccc; font-family: inherit; margin: 2px 0; } /* Increased from 14px */
+    input { width: 160px; font-size: 17px; border: 1px solid #ccc; font-family: inherit; margin: 2px 0; }
     .editable-value { display: inline-block; min-width: 160px; }
     .display-text { display: none; }
 
@@ -149,7 +149,7 @@
     <hr class="separator">
 
     <div class="order-details">
-      <p>OrderDate <input type="text" id="order-date" value="18-09-2025 07:52 AM" onchange="updateDisplay('order-date')"><span class="display-text" id="order-date-display"></span></p>
+      <p>OrderDate <input type="text" id="order-date" value="18-09-2025 08:14 AM" onchange="updateDisplay('order-date')"><span class="display-text" id="order-date-display"></span></p>
       <p>OrderID# <input type="text" id="order-id" value="17566266490471778A" onchange="updateDisplay('order-id')"><span class="display-text" id="order-id-display"></span></p>
       <p>ShipmentID# <input type="text" id="shipment-id" value="17566266490471778A-01" onchange="updateDisplay('shipment-id')"><span class="display-text" id="shipment-id-display"></span></p>
       <p>Trip : W5 - *** QC ***</p>
@@ -166,7 +166,7 @@
     <div class="bill-info">
       <p>Bill No.: <input type="text" id="bill-no" value="670999339" onchange="updateDisplay('bill-no')"><span class="display-text" id="bill-no-display"></span></p>
       <p>Date: <input type="text" id="bill-date" value="18-09-2025" onchange="updateDisplay('bill-date')"><span class="display-text" id="bill-date-display"></span></p>
-      <p>Time: <input type="text" id="bill-time" value="07:52 AM" onchange="updateDisplay('bill-time')"><span class="display-text" id="bill-time-display"></span></p>
+      <p>Time: <input type="text" id="bill-time" value="08:14 AM" onchange="updateDisplay('bill-time')"><span class="display-text" id="bill-time-display"></span></p>
       <p>C#60551161              Txn#39</p>
       <p>S#6701                   R#220</p>
     </div>
@@ -366,7 +366,7 @@
       const doc = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
-        format: [80, 200] // Width 80mm, height adjusted
+        format: [80, 200]
       });
 
       const content = document.getElementById('invoice').innerHTML;
