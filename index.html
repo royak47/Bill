@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>JioMart Invoice Generator</title>
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     body {
       font-family: 'Courier New', monospace;
@@ -40,6 +39,7 @@
       font-size: 13px;
     }
 
+    /* 🔥 Fixed Logo Section with reduced gap */
     .logo-qr-top {
       text-align: center;
       margin: 0;
@@ -48,19 +48,19 @@
     .logo-qr-top .logo-main {
       width: 90%;
       max-width: 220px;
-      margin: 0 auto 0;
+      margin: 0 auto;
       display: block;
     }
     .logo-qr-top .logo-sub {
       width: 70%;
       max-width: 160px;
-      margin: 0 auto 10px; /* Increased gap to 10px */
+      margin: 0 auto 2px; /* 🔥 Reduced gap from 5px to 2px */
       display: block;
     }
     .logo-qr-top canvas.qr {
       width: 120px !important;
       height: 120px !important;
-      margin: 0 auto 0;
+      margin: 0 auto;
       padding: 0;
       display: block;
     }
@@ -118,7 +118,7 @@
   </style>
 </head>
 <body>
-  <div class="container" id="invoice">
+class="container" id="invoice">
     <div class="logo-qr-top">
       <img src="logo1.png" alt="Main Logo" class="logo-main">
       <img src="logo2.png" alt="Second Logo" class="logo-sub">
