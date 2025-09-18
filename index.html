@@ -63,7 +63,7 @@
     .header {
       margin: 0;
       padding: 0;
-      text-align: left;
+      text-align: left; /* Changed to left align */
     }
     .header p { margin: 1px 0; font-size: 17px; }
     .separator { border: none; border-top: 1px dashed #ccc; margin: 5px 0; }
@@ -121,7 +121,7 @@
     </div>
 
     <div class="header">
-      <p>Customer Care email - CS@jiomart.com</p>
+      <p>Customer Care email-CS@jiomart.com</p>
       <p>RELIANCE SMART</p>
       <p>LG-001, DLF Mega Mall</p>
       <p>Customer Care toll free number- 1800 898 1222</p>
@@ -149,7 +149,7 @@
     <hr class="separator">
 
     <div class="order-details">
-      <p>OrderDate <input type="text" id="order-date" value="18-09-2025 08:24 AM" onchange="updateDisplay('order-date')"><span class="display-text" id="order-date-display"></span></p>
+      <p>OrderDate <input type="text" id="order-date" value="18-09-2025 08:33 AM" onchange="updateDisplay('order-date')"><span class="display-text" id="order-date-display"></span></p>
       <p>OrderID# <input type="text" id="order-id" value="17566266490471778A" onchange="updateDisplay('order-id')"><span class="display-text" id="order-id-display"></span></p>
       <p>ShipmentID# <input type="text" id="shipment-id" value="17566266490471778A-01" onchange="updateDisplay('shipment-id')"><span class="display-text" id="shipment-id-display"></span></p>
       <p>Trip : W5 - *** QC ***</p>
@@ -166,7 +166,7 @@
     <div class="bill-info">
       <p>Bill No.: <input type="text" id="bill-no" value="670999339" onchange="updateDisplay('bill-no')"><span class="display-text" id="bill-no-display"></span></p>
       <p>Date: <input type="text" id="bill-date" value="18-09-2025" onchange="updateDisplay('bill-date')"><span class="display-text" id="bill-date-display"></span></p>
-      <p>Time: <input type="text" id="bill-time" value="08:24 AM" onchange="updateDisplay('bill-time')"><span class="display-text" id="bill-time-display"></span></p>
+      <p>Time: <input type="text" id="bill-time" value="08:33 AM" onchange="updateDisplay('bill-time')"><span class="display-text" id="bill-time-display"></span></p>
       <p>C#60551161              Txn#39</p>
       <p>S#6701                   R#220</p>
     </div>
@@ -342,7 +342,7 @@
       document.getElementById('gst-taxable-total').textContent = taxable.toFixed(2);
       document.getElementById('gst-cgst-total').textContent = cgst.toFixed(2);
       document.getElementById('gst-sgst-total').textContent = sgst.toFixed(2);
-      document.getElementById('gst-cess-total').content = cess.toFixed(2);
+      document.getElementById('gst-cess-total').textContent = cess.toFixed(2);
       document.getElementById('gst-total-total').textContent = grandTotal.toFixed(2);
 
       // Random RefNo# generation
