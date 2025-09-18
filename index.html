@@ -42,33 +42,33 @@
     /* 🔥 Top Logos Fix */
     .logo-qr-top {
       text-align: center;
-      margin-bottom: 2px;
+      margin-bottom: 0; /* 🔥 Removed gap below QR */
     }
     .logo-qr-top .logo-main {
       width: 90%;
       max-width: 220px;
-      margin: 0 auto 8px auto;
+      margin: 0 auto 0 auto;
       display: block;
     }
     .logo-qr-top .logo-sub {
       width: 70%;
       max-width: 160px;
-      margin: 0 auto; /* 🔥 Removed bottom margin to eliminate extra space */
+      margin: 0 auto;
       display: block;
+    }
+    .logo-qr-top canvas.qr {
+      width: 120px !important;
+      height: 120px !important;
+      margin: 0 auto 0 auto; /* 🔥 Removed bottom margin */
     }
 
     .header {
       margin-top: 0;
       padding-top: 0;
       text-align: center;
-      margin-bottom: 2px; /* 🔥 Reduced margin to lower header lines */
+      margin-bottom: 2px;
     }
-    .header p { margin: 1px 0; font-size: 14px; } /* 🔥 Reduced margin for compact header lines */
-    .logo-qr-top canvas.qr {
-      width: 120px !important;
-      height: 120px !important;
-    }
-
+    .header p { margin: 1px 0; font-size: 14px; }
     .separator { border: none; border-top: 1px dashed #000; margin: 5px 0; }
     .customer-details p, .order-details p, .bill-info p { margin: 1px 0; font-size: 14px; }
 
@@ -86,13 +86,17 @@
 
     .print-btn {
       display: block;
-      margin: 20px auto;
-      padding: 10px;
+      margin: 10px auto; /* Reduced margin for better placement */
+      padding: 10px 20px;
       background: #007bff;
       color: white;
       border: none;
       cursor: pointer;
-      font-size: 20px;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+    .print-btn:hover {
+      background: #0056b3;
     }
 
     input { width: 160px; font-size: 14px; border: 1px solid #ccc; font-family: inherit; margin: 2px 0; }
