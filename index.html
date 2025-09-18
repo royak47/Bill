@@ -42,12 +42,13 @@
     /* 🔥 Top Logos Fix */
     .logo-qr-top {
       text-align: center;
-      margin-bottom: 0; /* 🔥 Removed gap below QR */
+      margin: 0;
+      padding: 0;
     }
     .logo-qr-top .logo-main {
       width: 90%;
       max-width: 220px;
-      margin: 0 auto 0 auto;
+      margin: 0 auto 0;
       display: block;
     }
     .logo-qr-top .logo-sub {
@@ -59,14 +60,15 @@
     .logo-qr-top canvas.qr {
       width: 120px !important;
       height: 120px !important;
-      margin: 0 auto 0 auto; /* 🔥 Removed bottom margin */
+      margin: 0 auto 0;
+      padding: 0;
+      display: block;
     }
 
     .header {
-      margin-top: 0;
-      padding-top: 0;
+      margin: 0;
+      padding: 0;
       text-align: center;
-      margin-bottom: 2px;
     }
     .header p { margin: 1px 0; font-size: 14px; }
     .separator { border: none; border-top: 1px dashed #000; margin: 5px 0; }
@@ -86,7 +88,7 @@
 
     .print-btn {
       display: block;
-      margin: 10px auto; /* Reduced margin for better placement */
+      margin: 10px auto;
       padding: 10px 20px;
       background: #007bff;
       color: white;
@@ -142,7 +144,7 @@
       <p><input type="text" class="editable-value" id="customer-name" value="Neeraj None" onchange="updateDisplay('customer-name')"><span class="display-text" id="customer-name-display"></span></p>
       <p>Phone: <input type="text" class="editable-value" id="phone" value="XXXXXXXXXX" onchange="updateDisplay('phone')"><span class="display-text" id="phone-display"></span></p>
       <p>Flat No: <input type="text" class="editable-value" id="flat-no" value="Mg road metro s" onchange="updateDisplay('flat-no')"><span class="display-text" id="flat-no-display"></span></p>
-      <p>Street: <input type="text" class="editable-value" id="street" value="Maruti Housing Colony" onchange="updateDisplay('street')"><span class="display-text" id="street-display"></span></p>
+      <p>Street: <input type="text" class="editable-value" id="street" value="Maruti Housing Colo" onchange="updateDisplay('street')"><span class="display-text" id="street-display"></span></p>
       <p>City: <input type="text" class="editable-value" id="city" value="Gurugram" onchange="updateDisplay('city')"><span class="display-text" id="city-display"></span></p>
       <p>State: <input type="text" class="editable-value" id="state" value="Haryana" onchange="updateDisplay('state')"><span class="display-text" id="state-display"></span></p>
       <p>PinCode: <input type="text" class="editable-value" id="pincode" value="122009" onchange="updateDisplay('pincode')"><span class="display-text" id="pincode-display"></span></p>
@@ -320,7 +322,7 @@
         const value = price * qty;
         document.getElementById(`item-value-${i}`).textContent = value.toFixed(2);
         document.getElementById(`item-qty-display-${i}`).textContent = qty;
-        document.getElementById(`item-value-display-${i}`).textContent = value.toFixed(2);
+        document.getElementById(`item-value-display-${itemCount}`).textContent = value.toFixed(2);
         total += value;
       }
       const savedAmount = parseFloat(document.getElementById('saved-amount').value) || 0;
