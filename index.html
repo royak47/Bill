@@ -66,7 +66,7 @@
       text-align: center;
     }
     .header p { margin: 1px 0; font-size: 17px; }
-    .separator { border: none; border-top: 1px dashed #ccc; margin: 5px 0; } /* Changed to lighter gray (#ccc) and reduced capacity */
+    .separator { border: none; border-top: 1px dashed #ccc; margin: 5px 0; }
     .customer-details p, .order-details p, .bill-info p { margin: 1px 0; font-size: 17px; }
 
     .items-table { width: 100%; border-collapse: collapse; font-size: 17px; margin: 5px 0; }
@@ -149,7 +149,7 @@
     <hr class="separator">
 
     <div class="order-details">
-      <p>OrderDate <input type="text" id="order-date" value="18-09-2025 08:14 AM" onchange="updateDisplay('order-date')"><span class="display-text" id="order-date-display"></span></p>
+      <p>OrderDate <input type="text" id="order-date" value="18-09-2025 08:24 AM" onchange="updateDisplay('order-date')"><span class="display-text" id="order-date-display"></span></p>
       <p>OrderID# <input type="text" id="order-id" value="17566266490471778A" onchange="updateDisplay('order-id')"><span class="display-text" id="order-id-display"></span></p>
       <p>ShipmentID# <input type="text" id="shipment-id" value="17566266490471778A-01" onchange="updateDisplay('shipment-id')"><span class="display-text" id="shipment-id-display"></span></p>
       <p>Trip : W5 - *** QC ***</p>
@@ -166,7 +166,7 @@
     <div class="bill-info">
       <p>Bill No.: <input type="text" id="bill-no" value="670999339" onchange="updateDisplay('bill-no')"><span class="display-text" id="bill-no-display"></span></p>
       <p>Date: <input type="text" id="bill-date" value="18-09-2025" onchange="updateDisplay('bill-date')"><span class="display-text" id="bill-date-display"></span></p>
-      <p>Time: <input type="text" id="bill-time" value="08:14 AM" onchange="updateDisplay('bill-time')"><span class="display-text" id="bill-time-display"></span></p>
+      <p>Time: <input type="text" id="bill-time" value="08:24 AM" onchange="updateDisplay('bill-time')"><span class="display-text" id="bill-time-display"></span></p>
       <p>C#60551161              Txn#39</p>
       <p>S#6701                   R#220</p>
     </div>
@@ -186,19 +186,19 @@
         <tr><td colspan="4">1)CGST@2.50% SGST@2.50% CESS@0.00%</td></tr>
         <tr class="item-row">
           <td><input type="text" id="item-hsn-1" value="17011490" onchange="updateItemDisplay(1)"><span class="display-text" id="item-hsn-display-1"></span></td>
-          <td><input type="number" id="item-price-1" value="149.00" step="0.01" onchange="calculateTotals()"></td>
+          <td><input type="number" id="item-price-1" value="14190.48" step="0.01" onchange="calculateTotals()"></td>
           <td><input type="number" id="item-qty-1" value="1" step="1" onchange="calculateTotals()"></td>
-          <td class="right"><span id="item-value-1">149.00</span></td>
+          <td class="right"><span id="item-value-1">14190.48</span></td>
         </tr>
         <tr class="item-row"><td colspan="4"><input type="text" id="item-name-1" value="Dhampur Sugar 5kg" style="width: 100%;" onchange="updateItemDisplay(1)"><span class="display-text" id="item-name-display-1"></span></td></tr>
-        <tr class="item-row"><td colspan="4">Item: 1      QTY : <span id="item-qty-display-1">1</span>    <span id="item-value-display-1">149.00</span></td></tr>
+        <tr class="item-row"><td colspan="4">Item: 1      QTY : <span id="item-qty-display-1">1</span>    <span id="item-value-display-1">14190.48</span></td></tr>
       </table>
     </div>
 
     <div class="totals">
-      <p>Total Amount            <span id="total-amount">149.00</span></p>
+      <p>Total Amount            <span id="total-amount">14900.00</span></p>
       <p>Coupon Disc             <span id="coupon-disc">100.00</span></p>
-      <p>Amount Paid Online      <span id="amount-paid">49.00</span></p>
+      <p>Amount Paid Online      <span id="amount-paid">14800.00</span></p>
       <p>{AMT INCL. OF APPLICABLE TAXES}</p>
     </div>
     <hr class="separator">
@@ -212,14 +212,14 @@
       <table class="gst-table">
         <tr>
           <td class="left">  1</td>
-          <td id="gst-taxable">141.90</td>
-          <td id="gst-cgst">3.55</td>
-          <td id="gst-sgst">3.55</td>
+          <td id="gst-taxable">14190.48</td>
+          <td id="gst-cgst">354.76</td>
+          <td id="gst-sgst">354.76</td>
         </tr>
         <tr>
           <td></td>
           <td id="gst-cess">0.00</td>
-          <td id="gst-total">149.00</td>
+          <td id="gst-total">14900.00</td>
           <td></td>
         </tr>
       </table>
@@ -227,21 +227,21 @@
       <table class="gst-table">
         <tr>
           <td class="left"> T:</td>
-          <td id="gst-taxable-total">141.90</td>
-          <td id="gst-cgst-total">3.55</td>
-          <td id="gst-sgst-total">3.55</td>
+          <td id="gst-taxable-total">14190.48</td>
+          <td id="gst-cgst-total">354.76</td>
+          <td id="gst-sgst-total">354.76</td>
         </tr>
         <tr>
           <td></td>
           <td id="gst-cess-total">0.00</td>
-          <td id="gst-total-total">149.00</td>
+          <td id="gst-total-total">14900.00</td>
           <td></td>
         </tr>
       </table>
     </div>
 
     <div class="ref-details">
-      <p>RefNo#<span id="ref-no">6701220003931082025</span></p>
+      <p>RefNo#<span id="ref-no"></span></p>
       <p>Tax Invoice#<span id="tax-invoice">670999339</span></p>
       <p>ROne Card Details</p>
       <p>ROne Card No. :730XXXX372</p>
@@ -326,7 +326,8 @@
       document.getElementById('coupon-disc').textContent = savedAmount.toFixed(2);
       document.getElementById('amount-paid').textContent = amountPaid.toFixed(2);
 
-      const taxable = total * 100 / (1 + 0.025 + 0.025);
+      // Tax calculation (5% GST = 2.5% CGST + 2.5% SGST, 0% CESS)
+      const taxable = total / 1.05; // Reverse calculate taxable amount
       const cgst = taxable * 0.025;
       const sgst = taxable * 0.025;
       const cess = 0.00;
@@ -341,8 +342,12 @@
       document.getElementById('gst-taxable-total').textContent = taxable.toFixed(2);
       document.getElementById('gst-cgst-total').textContent = cgst.toFixed(2);
       document.getElementById('gst-sgst-total').textContent = sgst.toFixed(2);
-      document.getElementById('gst-cess-total').textContent = cess.toFixed(2);
+      document.getElementById('gst-cess-total').content = cess.toFixed(2);
       document.getElementById('gst-total-total').textContent = grandTotal.toFixed(2);
+
+      // Random RefNo# generation
+      const randomRefNo = `670${Math.floor(Math.random() * 1000000000000000).toString().padStart(15, '0')}`;
+      document.getElementById('ref-no').textContent = randomRefNo;
 
       document.getElementById('bill-no').value = `670${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}`;
       updateDisplay('bill-no');
