@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>JioMart Invoice Generator</title>
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     body {
       font-family: 'Courier New', monospace;
@@ -39,7 +40,6 @@
       font-size: 13px;
     }
 
-    /* 🔥 Top Logos Fix */
     .logo-qr-top {
       text-align: center;
       margin: 0;
@@ -54,7 +54,7 @@
     .logo-qr-top .logo-sub {
       width: 70%;
       max-width: 160px;
-      margin: 0 auto 5px; /* 🔥 Added 5px gap below logo2 */
+      margin: 0 auto 10px; /* Increased gap to 10px */
       display: block;
     }
     .logo-qr-top canvas.qr {
@@ -119,7 +119,6 @@
 </head>
 <body>
   <div class="container" id="invoice">
-    <!-- 🔥 Fixed Logo Section -->
     <div class="logo-qr-top">
       <img src="logo1.png" alt="Main Logo" class="logo-main">
       <img src="logo2.png" alt="Second Logo" class="logo-sub">
@@ -273,7 +272,7 @@
     </div>
   </div>
 
-  <button class="print-btn" onclick="printInvoice()">Print Bill Directly</button>
+  <button class="print-btn" onclick="printInvoice()">Download Invoice as PDF</button>
 
   <script>
     let itemCount = 1;
@@ -332,7 +331,6 @@
       document.getElementById('coupon-disc').textContent = savedAmount.toFixed(2);
       document.getElementById('amount-paid').textContent = amountPaid.toFixed(2);
 
-      // GST Calculation (2.5% CGST, 2.5% SGST)
       const taxable = total * 100 / (1 + 0.025 + 0.025);
       const cgst = taxable * 0.025;
       const sgst = taxable * 0.025;
@@ -351,12 +349,10 @@
       document.getElementById('gst-cess-total').textContent = cess.toFixed(2);
       document.getElementById('gst-total-total').textContent = grandTotal.toFixed(2);
 
-      // Random Bill Number
       document.getElementById('bill-no').value = `670${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}`;
       updateDisplay('bill-no');
       document.getElementById('tax-invoice').textContent = document.getElementById('bill-no').value;
 
-      // Generate QR Codes with random Order ID if needed
       let orderId = document.getElementById('order-id').value;
       if (!orderId) {
         orderId = `175${Math.floor(Math.random() * 1000000000000).toString().padStart(12, '0')}A`;
@@ -369,16 +365,28 @@
       QRCode.toCanvas(document.getElementById('qr-bottom'), document.getElementById('shipment-id').value, { width: 60 });
     }
 
-    document.getElementById('saved-amount').addEventListener('input', calculateTotals);
-
     function printInvoice() {
       calculateTotals();
-      if (window.print) {
-        window.print(); // User can select "Save as PDF" in the print dialog
-      } else {
-        alert('Print function is not supported in this browser. Please use Ctrl+P or your browser\'s print option.');
-      }
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: [80, 200] // Width 80mm, height adjusted
+      });
+
+      const content = document.getElementById('invoice').innerHTML;
+      doc.html(content, {
+        callback: function (doc) {
+          doc.save('JioMart_Invoice_' + new Date().toISOString().split('T')[0] + '.pdf');
+        },
+        x: 0,
+        y: 0,
+        width: 80,
+        windowWidth: 80
+      });
     }
+
+    document.getElementById('saved-amount').addEventListener('input', calculateTotals);
 
     window.onload = () => {
       calculateTotals();
