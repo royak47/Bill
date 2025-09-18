@@ -54,7 +54,7 @@
     .logo-qr-top .logo-sub {
       width: 70%;
       max-width: 160px;
-      margin: 0 auto;
+      margin: 0 auto 5px; /* 🔥 Added 5px gap below logo2 */
       display: block;
     }
     .logo-qr-top canvas.qr {
@@ -155,7 +155,7 @@
     <hr class="separator">
 
     <div class="order-details">
-      <p>OrderDate <input type="text" id="order-date" value="11-09-2025 01:08 PM" onchange="updateDisplay('order-date')"><span class="display-text" id="order-date-display"></span></p>
+      <p>OrderDate <input type="text" id="order-date" value="07-09-2025 07:11 AM" onchange="updateDisplay('order-date')"><span class="display-text" id="order-date-display"></span></p>
       <p>OrderID# <input type="text" id="order-id" value="17566266490471778A" onchange="updateDisplay('order-id')"><span class="display-text" id="order-id-display"></span></p>
       <p>ShipmentID# <input type="text" id="shipment-id" value="17566266490471778A-01" onchange="updateDisplay('shipment-id')"><span class="display-text" id="shipment-id-display"></span></p>
       <p>Trip : W5 - *** QC ***</p>
@@ -171,7 +171,8 @@
 
     <div class="bill-info">
       <p>Bill No.: <input type="text" id="bill-no" value="670999339" onchange="updateDisplay('bill-no')"><span class="display-text" id="bill-no-display"></span></p>
-      <p>Date:11-09-2025  Time:01:08 PM</p>
+      <p>Date: <input type="text" id="bill-date" value="07-09-2025" onchange="updateDisplay('bill-date')"><span class="display-text" id="bill-date-display"></span></p>
+      <p>Time: <input type="text" id="bill-time" value="07:11 AM" onchange="updateDisplay('bill-time')"><span class="display-text" id="bill-time-display"></span></p>
       <p>C#60551161              Txn#39</p>
       <p>S#6701                   R#220</p>
     </div>
@@ -322,7 +323,7 @@
         const value = price * qty;
         document.getElementById(`item-value-${i}`).textContent = value.toFixed(2);
         document.getElementById(`item-qty-display-${i}`).textContent = qty;
-        document.getElementById(`item-value-display-${itemCount}`).textContent = value.toFixed(2);
+        document.getElementById(`item-value-display-${i}`).textContent = value.toFixed(2);
         total += value;
       }
       const savedAmount = parseFloat(document.getElementById('saved-amount').value) || 0;
@@ -373,7 +374,7 @@
     function printInvoice() {
       calculateTotals();
       if (window.print) {
-        window.print();
+        window.print(); // User can select "Save as PDF" in the print dialog
       } else {
         alert('Print function is not supported in this browser. Please use Ctrl+P or your browser\'s print option.');
       }
@@ -393,6 +394,8 @@
       updateDisplay('shipment-id');
       updateDisplay('saved-amount');
       updateDisplay('bill-no');
+      updateDisplay('bill-date');
+      updateDisplay('bill-time');
       updateItemDisplay(1);
     };
   </script>
