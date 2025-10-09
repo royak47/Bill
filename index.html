@@ -375,6 +375,13 @@
       table.appendChild(row2);
       table.appendChild(row3);
       
+      // Generate new order ID and shipment ID when adding an item
+      const newOrderId = generateOrderId();
+      document.getElementById('order-id').value = newOrderId;
+      document.getElementById('shipment-id').value = newOrderId + '-01';
+      updateDisplay('order-id');
+      updateDisplay('shipment-id');
+      
       calculateTotals();
     }
 
@@ -509,15 +516,9 @@
       updateDisplay('bill-no');
       document.getElementById('tax-invoice').textContent = document.getElementById('bill-no').value;
 
-      let orderId = document.getElementById('order-id').value;
-      if (!orderId || orderId === '17566266490471778A') {
-        orderId = generateOrderId();
-        document.getElementById('order-id').value = orderId;
-      }
-      updateDisplay('order-id');
+      // Update QR codes with current order and shipment IDs
+      const orderId = document.getElementById('order-id').value;
       QRCode.toCanvas(document.getElementById('qr-top'), orderId, { width: 60 });
-      document.getElementById('shipment-id').value = orderId + '-01';
-      updateDisplay('shipment-id');
       QRCode.toCanvas(document.getElementById('qr-bottom'), document.getElementById('shipment-id').value, { width: 60 });
     }
 
