@@ -63,7 +63,7 @@
     .header {
       margin: 0;
       padding: 0;
-      text-align: left; /* Changed to left align */
+      text-align: left;
     }
     .header p { margin: 1px 0; font-size: 17px; }
     .separator { border: none; border-top: 1px dashed #ccc; margin: 5px 0; }
@@ -100,10 +100,47 @@
     .editable-value { display: inline-block; min-width: 160px; }
     .display-text { display: none; }
 
+    .add-item {
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .add-item button {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 16px;
+      margin-right: 5px;
+    }
+    .add-item button:hover {
+      background: #218838;
+    }
+    
+    .remove-item-btn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 3px 8px;
+      cursor: pointer;
+      border-radius: 3px;
+      font-size: 12px;
+      margin-left: 5px;
+    }
+    .remove-item-btn:hover {
+      background: #c82333;
+    }
+    
+    .item-actions {
+      text-align: center;
+      padding: 5px 0;
+    }
+
     @media print {
       body { padding: 0; background: white; }
       .container { width: 80mm; box-shadow: none; margin: 0; padding: 5px; }
-      .print-btn, input, .add-item { display: none !important; }
+      .print-btn, input, .add-item, .remove-item-btn { display: none !important; }
       .editable-value { display: none !important; }
       .display-text { display: inline !important; border: none !important; background: transparent !important; }
       .item-row input { display: none !important; }
@@ -184,14 +221,24 @@
           <td class="right">Value</td>
         </tr>
         <tr><td colspan="4">1)CGST@2.50% SGST@2.50% CESS@0.00%</td></tr>
-        <tr class="item-row">
+        <tr class="item-row" id="item-row-1">
           <td><input type="text" id="item-hsn-1" value="17011490" onchange="updateItemDisplay(1)"><span class="display-text" id="item-hsn-display-1"></span></td>
           <td><input type="number" id="item-price-1" value="14190.48" step="0.01" onchange="calculateTotals()"></td>
           <td><input type="number" id="item-qty-1" value="1" step="1" onchange="calculateTotals()"></td>
           <td class="right"><span id="item-value-1">14190.48</span></td>
         </tr>
-        <tr class="item-row"><td colspan="4"><input type="text" id="item-name-1" value="Dhampur Sugar 5kg" style="width: 100%;" onchange="updateItemDisplay(1)"><span class="display-text" id="item-name-display-1"></span></td></tr>
-        <tr class="item-row"><td colspan="4">Item: 1      QTY : <span id="item-qty-display-1">1</span>    <span id="item-value-display-1">14190.48</span></td></tr>
+        <tr class="item-row" id="item-desc-1">
+          <td colspan="4">
+            <input type="text" id="item-name-1" value="Dhampur Sugar 5kg" style="width: 100%;" onchange="updateItemDisplay(1)">
+            <span class="display-text" id="item-name-display-1"></span>
+          </td>
+        </tr>
+        <tr class="item-row" id="item-info-1">
+          <td colspan="4">
+            Item: 1      QTY : <span id="item-qty-display-1">1</span>    <span id="item-value-display-1">14190.48</span>
+            <button class="remove-item-btn" onclick="removeItem(1)">Remove</button>
+          </td>
+        </tr>
       </table>
     </div>
 
@@ -255,9 +302,9 @@
       <p>Please refer to our Website link</p>
       <p>https://relianceretail.com/privacy-policy.html</p>
       <p>for Privacy Policy</p>
-      <p>“Dynamic</p>
+      <p>"Dynamic</p>
       <p>Quick Response (QR) code is made</p>
-      <p>available to the Recipient through a digital display”</p>
+      <p>available to the Recipient through a digital display"</p>
       <p>Customer Care toll free number- 1800 898 1222</p>
     </div>
 
@@ -271,6 +318,13 @@
 
   <script>
     let itemCount = 1;
+
+    // Generate random order ID and shipment ID
+    function generateOrderId() {
+      const timestamp = Date.now().toString().slice(-10);
+      const random = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+      return `175${timestamp}${random}A`;
+    }
 
     function updateDisplay(id) {
       const value = document.getElementById(id).value;
@@ -292,20 +346,115 @@
     function addItem() {
       itemCount++;
       const table = document.getElementById('items-table');
-      const row1 = table.insertRow(-1);
+      
+      // Insert new item rows
+      const row1 = document.createElement('tr');
       row1.className = 'item-row';
+      row1.id = `item-row-${itemCount}`;
       row1.innerHTML = `
         <td><input type="text" id="item-hsn-${itemCount}" onchange="updateItemDisplay(${itemCount})"><span class="display-text" id="item-hsn-display-${itemCount}"></span></td>
         <td><input type="number" id="item-price-${itemCount}" step="0.01" onchange="calculateTotals()"></td>
         <td><input type="number" id="item-qty-${itemCount}" step="1" onchange="calculateTotals()"></td>
         <td class="right"><span id="item-value-${itemCount}"></span></td>
       `;
-      const row2 = table.insertRow(-1);
+      
+      const row2 = document.createElement('tr');
       row2.className = 'item-row';
+      row2.id = `item-desc-${itemCount}`;
       row2.innerHTML = `<td colspan="4"><input type="text" id="item-name-${itemCount}" style="width: 100%;" onchange="updateItemDisplay(${itemCount})"><span class="display-text" id="item-name-display-${itemCount}"></span></td>`;
-      const row3 = table.insertRow(-1);
+      
+      const row3 = document.createElement('tr');
       row3.className = 'item-row';
-      row3.innerHTML = `<td colspan="4">Item: ${itemCount}      QTY : <span id="item-qty-display-${itemCount}"></span>    <span id="item-value-display-${itemCount}"></span></td>`;
+      row3.id = `item-info-${itemCount}`;
+      row3.innerHTML = `<td colspan="4">Item: ${itemCount}      QTY : <span id="item-qty-display-${itemCount}"></span>    <span id="item-value-display-${itemCount}"></span><button class="remove-item-btn" onclick="removeItem(${itemCount})">Remove</button></td>`;
+      
+      // Insert before the totals section
+      const totalsSection = document.querySelector('.totals');
+      const itemsSection = document.querySelector('.items-section');
+      table.appendChild(row1);
+      table.appendChild(row2);
+      table.appendChild(row3);
+      
+      calculateTotals();
+    }
+
+    function removeItem(itemNum) {
+      if (itemCount <= 1) {
+        alert("At least one item is required");
+        return;
+      }
+      
+      document.getElementById(`item-row-${itemNum}`).remove();
+      document.getElementById(`item-desc-${itemNum}`).remove();
+      document.getElementById(`item-info-${itemNum}`).remove();
+      
+      // Recalculate item numbers
+      const items = document.querySelectorAll('.item-row');
+      let newItemCount = 0;
+      
+      for (let i = 0; i < items.length; i += 3) {
+        newItemCount++;
+        const itemRow = items[i];
+        const itemDesc = items[i+1];
+        const itemInfo = items[i+2];
+        
+        if (itemRow && itemDesc && itemInfo) {
+          // Update IDs
+          itemRow.id = `item-row-${newItemCount}`;
+          itemDesc.id = `item-desc-${newItemCount}`;
+          itemInfo.id = `item-info-${newItemCount}`;
+          
+          // Update input IDs and event handlers
+          const hsnInput = itemRow.querySelector('input[type="text"]');
+          const priceInput = itemRow.querySelector('input[type="number"]:nth-child(2)');
+          const qtyInput = itemRow.querySelector('input[type="number"]:nth-child(3)');
+          const nameInput = itemDesc.querySelector('input[type="text"]');
+          const removeBtn = itemInfo.querySelector('.remove-item-btn');
+          
+          if (hsnInput) {
+            hsnInput.id = `item-hsn-${newItemCount}`;
+            hsnInput.setAttribute('onchange', `updateItemDisplay(${newItemCount})`);
+          }
+          
+          if (priceInput) {
+            priceInput.id = `item-price-${newItemCount}`;
+            priceInput.setAttribute('onchange', 'calculateTotals()');
+          }
+          
+          if (qtyInput) {
+            qtyInput.id = `item-qty-${newItemCount}`;
+            qtyInput.setAttribute('onchange', 'calculateTotals()');
+          }
+          
+          if (nameInput) {
+            nameInput.id = `item-name-${newItemCount}`;
+            nameInput.setAttribute('onchange', `updateItemDisplay(${newItemCount})`);
+          }
+          
+          if (removeBtn) {
+            removeBtn.setAttribute('onclick', `removeItem(${newItemCount})`);
+          }
+          
+          // Update display elements
+          const hsnDisplay = itemRow.querySelector('.display-text');
+          const nameDisplay = itemDesc.querySelector('.display-text');
+          const qtyDisplay = itemInfo.querySelector('span:nth-child(1)');
+          const valueDisplay = itemInfo.querySelector('span:nth-child(2)');
+          
+          if (hsnDisplay) hsnDisplay.id = `item-hsn-display-${newItemCount}`;
+          if (nameDisplay) nameDisplay.id = `item-name-display-${newItemCount}`;
+          if (qtyDisplay) qtyDisplay.id = `item-qty-display-${newItemCount}`;
+          if (valueDisplay) valueDisplay.id = `item-value-display-${newItemCount}`;
+          
+          // Update item info text
+          const itemInfoText = itemInfo.querySelector('td');
+          if (itemInfoText) {
+            itemInfoText.innerHTML = `Item: ${newItemCount}      QTY : <span id="item-qty-display-${newItemCount}"></span>    <span id="item-value-display-${newItemCount}"></span><button class="remove-item-btn" onclick="removeItem(${newItemCount})">Remove</button>`;
+          }
+        }
+      }
+      
+      itemCount = newItemCount;
       calculateTotals();
     }
 
@@ -315,11 +464,18 @@
         const price = parseFloat(document.getElementById(`item-price-${i}`)?.value) || 0;
         const qty = parseInt(document.getElementById(`item-qty-${i}`)?.value) || 0;
         const value = price * qty;
-        document.getElementById(`item-value-${i}`).textContent = value.toFixed(2);
-        document.getElementById(`item-qty-display-${i}`).textContent = qty;
-        document.getElementById(`item-value-display-${i}`).textContent = value.toFixed(2);
+        if (document.getElementById(`item-value-${i}`)) {
+          document.getElementById(`item-value-${i}`).textContent = value.toFixed(2);
+        }
+        if (document.getElementById(`item-qty-display-${i}`)) {
+          document.getElementById(`item-qty-display-${i}`).textContent = qty;
+        }
+        if (document.getElementById(`item-value-display-${i}`)) {
+          document.getElementById(`item-value-display-${i}`).textContent = value.toFixed(2);
+        }
         total += value;
       }
+      
       const savedAmount = parseFloat(document.getElementById('saved-amount').value) || 0;
       const amountPaid = total - savedAmount > 0 ? total - savedAmount : 0;
       document.getElementById('total-amount').textContent = total.toFixed(2);
@@ -354,8 +510,8 @@
       document.getElementById('tax-invoice').textContent = document.getElementById('bill-no').value;
 
       let orderId = document.getElementById('order-id').value;
-      if (!orderId) {
-        orderId = `175${Math.floor(Math.random() * 1000000000000).toString().padStart(12, '0')}A`;
+      if (!orderId || orderId === '17566266490471778A') {
+        orderId = generateOrderId();
         document.getElementById('order-id').value = orderId;
       }
       updateDisplay('order-id');
@@ -389,6 +545,11 @@
     document.getElementById('saved-amount').addEventListener('input', calculateTotals);
 
     window.onload = () => {
+      // Generate new order ID and shipment ID on page load
+      const newOrderId = generateOrderId();
+      document.getElementById('order-id').value = newOrderId;
+      document.getElementById('shipment-id').value = newOrderId + '-01';
+      
       calculateTotals();
       updateDisplay('customer-name');
       updateDisplay('phone');
