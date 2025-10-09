@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>JioMart Invoice Generator</title>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     body {
@@ -52,13 +51,6 @@
       margin: 0 auto 0;
       display: block;
     }
-    .logo-qr-top canvas.qr {
-      width: 120px !important;
-      height: 120px !important;
-      margin: 0 auto 0;
-      padding: 0;
-      display: block;
-    }
 
     .header {
       margin: 0;
@@ -79,7 +71,6 @@
 
     .footer { text-align: center; font-size: 17px; margin-top: 10px; }
     .qr-bottom { text-align: center; margin: 5px 0; }
-    .qr-bottom canvas { width: 120px !important; height: 120px !important; }
 
     .print-btn {
       display: block;
@@ -154,7 +145,6 @@
     <div class="logo-qr-top">
       <img src="logo1.png" alt="Main Logo" class="logo-main">
       <img src="logo2.png" alt="Second Logo" class="logo-sub">
-      <canvas id="qr-top" class="qr"></canvas>
     </div>
 
     <div class="header">
@@ -302,15 +292,7 @@
       <p>Please refer to our Website link</p>
       <p>https://relianceretail.com/privacy-policy.html</p>
       <p>for Privacy Policy</p>
-      <p>"Dynamic</p>
-      <p>Quick Response (QR) code is made</p>
-      <p>available to the Recipient through a digital display"</p>
       <p>Customer Care toll free number- 1800 898 1222</p>
-    </div>
-
-    <div class="qr-bottom">
-      <p>Shipment ID code</p>
-      <canvas id="qr-bottom" class="qr"></canvas>
     </div>
   </div>
 
@@ -369,8 +351,6 @@
       row3.innerHTML = `<td colspan="4">Item: ${itemCount}      QTY : <span id="item-qty-display-${itemCount}"></span>    <span id="item-value-display-${itemCount}"></span><button class="remove-item-btn" onclick="removeItem(${itemCount})">Remove</button></td>`;
       
       // Insert before the totals section
-      const totalsSection = document.querySelector('.totals');
-      const itemsSection = document.querySelector('.items-section');
       table.appendChild(row1);
       table.appendChild(row2);
       table.appendChild(row3);
@@ -515,11 +495,6 @@
       document.getElementById('bill-no').value = `670${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}`;
       updateDisplay('bill-no');
       document.getElementById('tax-invoice').textContent = document.getElementById('bill-no').value;
-
-      // Update QR codes with current order and shipment IDs
-      const orderId = document.getElementById('order-id').value;
-      QRCode.toCanvas(document.getElementById('qr-top'), orderId, { width: 60 });
-      QRCode.toCanvas(document.getElementById('qr-bottom'), document.getElementById('shipment-id').value, { width: 60 });
     }
 
     function printInvoice() {
